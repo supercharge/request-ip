@@ -1,0 +1,56 @@
+{
+  "name": "@supercharge/request-ip",
+  "description": "Async utility functions for Node.js and JavaScript",
+  "version": "0.0.0",
+  "author": "Marcus Pöhls <marcus@superchargejs.com>",
+  "bugs": {
+    "url": "https://github.com/supercharge/request-ip/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@hapi/code": "~8.0.2",
+    "@hapi/lab": "~23.0.0",
+    "@supercharge/tsconfig": "~1.0.0",
+    "@typescript-eslint/parser": "~3.7.1",
+    "@typescript-eslint/eslint-plugin": "~3.7.1",
+    "eslint": "~7.6.0",
+    "eslint-config-standard-with-typescript": "~18.0.2",
+    "eslint-plugin-import": "~2.22.0",
+    "eslint-plugin-node": "~11.1.0",
+    "eslint-plugin-promise": "~4.2.1",
+    "eslint-plugin-standard": "~4.0.1",
+    "typescript": "~3.9.7"
+  },
+  "files": [
+    "dist",
+    "index.js"
+  ],
+  "homepage": "https://github.com/supercharge/request-ip",
+  "keywords": [
+    "nodejs",
+    "request",
+    "ip",
+    "request-ip",
+    "supercharge",
+    "superchargejs"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supercharge/request-ip.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --ext .js,.ts",
+    "lint:fix": "eslint . --fix",
+    "list:tests": "lab --assert @hapi/code --dry --verbose",
+    "test": "npm run build && npm run lint && npm run test:run",
+    "test:run": "lab --assert @hapi/code --leaks --coverage --reporter console --output stdout --reporter html --output ./coverage/coverage.html",
+    "test:single": "lab --assert @hapi/code --leaks --lint --id"
+  },
+  "types": "dist"
+}
