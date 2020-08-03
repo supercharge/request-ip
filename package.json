@@ -1,6 +1,6 @@
 {
   "name": "@supercharge/request-ip",
-  "description": "Async utility functions for Node.js and JavaScript",
+  "description": "Retrieve a request’s IP address in Node.js",
   "version": "0.0.0",
   "author": "Marcus Pöhls <marcus@superchargejs.com>",
   "bugs": {
