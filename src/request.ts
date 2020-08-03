@@ -42,14 +42,14 @@ export class Request extends InteractsWithHeaders {
    */
   fromHeaders (): undefined | string {
     if (this.hasHeaders()) {
-      // Heroku, AWS EC2, nginx (if configured), and others
-      if (this.hasIpInHeader('x-client-ip')) {
-        return this.ipInHeader('x-client-ip')
-      }
-
       // nginx (if configured), load balancers (AWS ELB), and other proxies
       if (this.hasIpInForwardedFor()) {
         return this.getFromForwardedFor()
+      }
+
+      // Heroku, AWS EC2, nginx (if configured), and others
+      if (this.hasIpInHeader('x-client-ip')) {
+        return this.ipInHeader('x-client-ip')
       }
 
       // used by some proxies, like nginx
