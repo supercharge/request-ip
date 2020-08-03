@@ -105,6 +105,10 @@ Here’s the order of locations in which the packages searches for the requestin
 6. Checks the request context used by AWS API Gateway/Lambda in `request.requestContext`
 
 
+## Credits
+A huge thank you to [Petar Bojinov](https://github.com/pbojinov) for his [request-ip](https://github.com/pbojinov/request-ip) package. I was using Petar’s package for two years in my [hapi-rate-limitor](https://github.com/futurestudio/hapi-rate-limitor) plugin. It seems Petar is busy with other work and I felt the need to create my own package providing the functionality to retrieve a request’s IP address.
+
+
 ## Contributing
 Do you miss a goodie function? We very much appreciate your contribution! Please send in a pull request 😊
 
