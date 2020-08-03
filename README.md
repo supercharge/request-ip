@@ -13,8 +13,8 @@
   <br/>
   <p>
     <a href="#installation"><strong>Installation</strong></a> ·
-    <a href="#docs"><strong>Docs</strong></a> ·
-    <a href="#api"><strong>API</strong></a>
+    <a href="#usage"><strong>Usage</strong></a> ·
+    <a href="#detecting-the-ip-address"><strong>Detecting the IP Address</strong></a>
   </p>
   <br/>
   <br/>
