@@ -80,6 +80,40 @@ export class Request extends InteractsWithHeaders {
   }
 
   /**
+   * Determine whether a valid IP address is available in the “x-forwarded-for” HTTP header.
+   *
+   * @returns {Boolean}
+   */
+  hasIpInForwardedFor (): boolean {
+    return this.isIp(
+      this.getFromForwardedFor()
+    )
+  }
+
+  /**
+   * Returns the IP address if available from the “x-forwarded-for” HTTP header.
+   *
+   * @returns {String | undefined}
+   */
+  getFromForwardedFor (): string | undefined {
+    if (this.hasIpInHeader('x-forwarded-for')) {
+      return this.ipInHeader('x-forwarded-for')
+    }
+
+    if (this.hasIpInHeader('x-forwarded')) {
+      return this.ipInHeader('x-forwarded')
+    }
+
+    if (this.hasIpInHeader('forwarded-for')) {
+      return this.ipInHeader('forwarded-for')
+    }
+
+    if (this.hasIpInHeader('forwarded')) {
+      return this.ipInHeader('forwarded')
+    }
+  }
+
+  /**
    * Determine whether the request IP comes from the given header `name`.
    *
    * @param {String} name - the header name
@@ -118,7 +152,7 @@ export class Request extends InteractsWithHeaders {
   }
 
   /**
-   * Returns the plain IP v4 address without the port number
+   * Returns the plain IP v4 address without the port number.
    *
    * @param {String} ip
    *
@@ -215,6 +249,37 @@ export class Request extends InteractsWithHeaders {
   }
 
   /**
+   * Returns the IP address if available from the raw request object. The
+   * `raw` request object is typically available in web frameworks like
+   * Fastify or hapi providing the original Node.js request instance.
+   *
+   * @returns {String | undefined}
+   */
+  fromRaw (): undefined | string {
+    if (this.hasRaw()) {
+      return new Request(this.request.raw).getClientIp()
+    }
+  }
+
+  /**
+   * Determine whether the request has a `requestContext` object assigned.
+   *
+   * @returns {Boolean}
+   */
+  hasRaw (): boolean {
+    return !!this.raw()
+  }
+
+  /**
+   * Returns the raw request object.
+   *
+   * @returns {Object}
+   */
+  raw (): object | undefined {
+    return this.request.raw
+  }
+
+  /**
    * Returns the IP address if available in the request context. The request
    * context is typically available in serverless functions, like AWS Lambda.
    *
@@ -251,71 +316,6 @@ export class Request extends InteractsWithHeaders {
    */
   requestContext (): any {
     return this.request.requestContext
-  }
-
-  /**
-   * Returns the IP address if available from the raw request object. The
-   * `raw` request object is typically available in web frameworks like
-   * Fastify or hapi providing the original Node.js request instance.
-   *
-   * @returns {String | undefined}
-   */
-  fromRaw (): undefined | string {
-    if (this.hasRaw()) {
-      return new Request(this.request.raw).getClientIp()
-    }
-  }
-
-  /**
-   * Determine whether the request has a `requestContext` object assigned.
-   *
-   * @returns {Boolean}
-   */
-  hasRaw (): boolean {
-    return !!this.raw()
-  }
-
-  /**
-   * Returns the raw request object.
-   *
-   * @returns {Object}
-   */
-  raw (): object | undefined {
-    return this.request.raw
-  }
-
-  /**
-   * Determine whether a valid IP address is available in the “x-forwarded-for” HTTP header.
-   *
-   * @returns {Boolean}
-   */
-  hasIpInForwardedFor (): boolean {
-    return this.isIp(
-      this.getFromForwardedFor()
-    )
-  }
-
-  /**
-   * Returns the IP address if available from the “x-forwarded-for” HTTP header.
-   *
-   * @returns {String | undefined}
-   */
-  getFromForwardedFor (): string | undefined {
-    if (this.hasIpInHeader('x-forwarded-for')) {
-      return this.ipInHeader('x-forwarded-for')
-    }
-
-    if (this.hasIpInHeader('x-forwarded')) {
-      return this.ipInHeader('x-forwarded')
-    }
-
-    if (this.hasIpInHeader('forwarded-for')) {
-      return this.ipInHeader('forwarded-for')
-    }
-
-    if (this.hasIpInHeader('forwarded')) {
-      return this.ipInHeader('forwarded')
-    }
   }
 
   /**
