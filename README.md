@@ -46,6 +46,7 @@ npm i @supercharge/request-ip
 const RequestIp = require('@supercharge/request-ip')
 
 const ip = RequestIp.getClientIp(request)
+
 // for example '213.211.254.97' as an IP v4 address
 // or '2001:0db8:85a3:0000:0000:8a2e:0370:7334' as an IP v6 address
 // or 'undefined' if no IP address is available on the given request
