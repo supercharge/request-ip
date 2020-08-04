@@ -95,14 +95,14 @@ The client’s IP address may be stored in different locations of the request in
 Here’s the order of locations in which the packages searches for the requesting IP address:
 
 1. Checks HTTP request headers
-  1. `x-forwarded-for`: this header may contain multiple IP address for (client/proxies/hops). This package extracts and returns the first IP address.
-  2. `x-forwarded`, `forwarded`, `forwarded-for` as variants from `x-forwarded-for` possibly configured by proxies
-  3. `x-client-ip` possibly configured by nginx
-  4. `x-real-ip` possibly configured in nginx
-  5. `cf-connecting-ip` from Cloudflare
-  6. `fastly-client-ip` from Fastly and Firebase
-  7. `true-client-ip` from Akamai and Cloudflare
-  8. `x-cluster-client-ip` from Rackspace
+    1. `x-forwarded-for`: this header may contain multiple IP address for (client/proxies/hops). This package extracts and returns the first IP address.
+    2. `x-forwarded`, `forwarded`, `forwarded-for` as variants from `x-forwarded-for` possibly configured by proxies
+    3. `x-client-ip` possibly configured by nginx
+    4. `x-real-ip` possibly configured in nginx
+    5. `cf-connecting-ip` from Cloudflare
+    6. `fastly-client-ip` from Fastly and Firebase
+    7. `true-client-ip` from Akamai and Cloudflare
+    8. `x-cluster-client-ip` from Rackspace
 2. Checks the HTTP connection in `request.connection` and `request.connection.socket`
 3. Checks the HTTP socket in `request.socket`
 4. Checks the HTTP info in `request.info`
@@ -115,7 +115,7 @@ A huge thank you to [Petar Bojinov](https://github.com/pbojinov) for his [reques
 
 
 ## Contributing
-Do you miss a goodie function? We very much appreciate your contribution! Please send in a pull request 😊
+Do you miss a way to find the request’s IP? We very much appreciate your contribution! Please send in a pull request 😊
 
 1.  Create a fork
 2.  Create your feature branch: `git checkout -b my-feature`
