@@ -11,7 +11,7 @@
     "@hapi/code": "~8.0.2",
     "@hapi/lab": "~23.0.0",
     "@supercharge/tsconfig": "~1.0.0",
-    "@typescript-eslint/eslint-plugin": "~3.7.1",
+    "@typescript-eslint/eslint-plugin": "~3.8.0",
     "eslint": "~7.6.0",
     "eslint-config-standard-with-typescript": "~18.0.2",
     "eslint-plugin-import": "~2.22.0",
