@@ -2,6 +2,7 @@
 
 const RequestIp = require('..')
 const { getClientIp } = require('..')
+
 const Lab = require('@hapi/lab')
 const { expect } = require('@hapi/code')
 
