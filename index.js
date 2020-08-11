@@ -1,4 +1,7 @@
 'use strict'
 
-module.exports = require('./dist')
-module.exports.default = require('./dist')
+const { getClientIp } = require('./dist')
+
+module.exports = { getClientIp }
+module.exports.default = { getClientIp }
+module.exports.getClientIp = getClientIp
