@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [1.1.1](https://github.com/supercharge/request-ip/compare/v1.1.0...v1.1.1) - 2020-08-11
+
+### Fixed
+- changed package exports to explicit, named exports. This addresses issue with bundlers like rollup
+
+
 ## [1.1.0](https://github.com/supercharge/request-ip/compare/v1.0.0...v1.1.0) - 2020-08-11
 
 ### Added
