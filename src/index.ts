@@ -9,6 +9,6 @@ import { Request } from './request'
  *
  * @returns {String}
  */
-export function getClientIp (request: object): undefined | string {
+export function getClientIp (request: any): undefined | string {
   return new Request(request).getClientIp()
 }
