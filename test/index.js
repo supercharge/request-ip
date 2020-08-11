@@ -1,12 +1,17 @@
 'use strict'
 
 const RequestIp = require('..')
+const { getClientIp } = require('..')
 const Lab = require('@hapi/lab')
 const { expect } = require('@hapi/code')
 
 const { describe, it } = exports.lab = Lab.script()
 
 describe('Request IP: ', () => {
+  it('exports a function', async () => {
+    expect(getClientIp).to.be.a.function()
+  })
+
   it('request headers is undefined', async () => {
     expect(RequestIp.getClientIp()).to.be.undefined()
     expect(RequestIp.getClientIp(null)).to.be.undefined()
