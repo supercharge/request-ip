@@ -1,7 +1,7 @@
 'use strict'
 
-const RequestIp = require('..')
-const { getClientIp } = require('..')
+const RequestIp = require('../dist')
+const { getClientIp } = RequestIp
 
 const Lab = require('@hapi/lab')
 const { expect } = require('@hapi/code')
