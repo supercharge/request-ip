@@ -11,18 +11,17 @@
     "@hapi/code": "~8.0.2",
     "@hapi/lab": "~23.0.0",
     "@supercharge/tsconfig": "~1.0.0",
-    "@typescript-eslint/eslint-plugin": "~3.8.0",
-    "eslint": "~7.6.0",
+    "@typescript-eslint/eslint-plugin": "~3.9.1",
+    "eslint": "~7.7.0",
     "eslint-config-standard-with-typescript": "~18.0.2",
     "eslint-plugin-import": "~2.22.0",
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-promise": "~4.2.1",
     "eslint-plugin-standard": "~4.0.1",
-    "typescript": "~3.9.7"
+    "typescript": "~4.0.2"
   },
   "files": [
-    "dist",
-    "index.js"
+    "dist"
   ],
   "homepage": "https://github.com/supercharge/request-ip",
   "keywords": [
@@ -34,7 +33,7 @@
     "superchargejs"
   ],
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist",
   "publishConfig": {
     "access": "public"
   },
