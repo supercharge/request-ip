@@ -18,6 +18,7 @@ export class Request extends InteractsWithHeaders {
     request = request || {}
 
     super(request.headers)
+
     this.request = request
   }
 
