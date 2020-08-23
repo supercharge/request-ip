@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [1.2.0](https://github.com/supercharge/set/compare/v1.1.2...v1.2.0) - 2020-08-xx
+
+### Updated
+- move tests from @hapi/lab and @hapi/code to jest
+
+
 ## [1.1.2](https://github.com/supercharge/set/compare/v1.1.1...v1.1.2) - 2020-08-21
 
 ### Updated
