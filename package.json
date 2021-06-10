@@ -6,7 +6,6 @@
   "bugs": {
     "url": "https://github.com/supercharge/request-ip/issues"
   },
-  "dependencies": {},
   "devDependencies": {
     "@supercharge/tsconfig": "~1.0.0",
     "@types/jest": "~26.0.21",
