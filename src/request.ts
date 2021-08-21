@@ -23,17 +23,28 @@ export class Request extends InteractsWithHeaders {
   }
 
   /**
+   * Returns all available client IP addresses.
+   *
+   * @returns {String[]}
+   */
+  getClientIps (): string[] {
+    return ([] as Array<string|undefined>)
+      .concat(this.fromHeaders())
+      .concat(this.fromConnection())
+      .concat(this.fromSocket())
+      .concat(this.fromInfo())
+      .concat(this.fromRaw())
+      .concat(this.fromRequestContext())
+      .filter(ip => ip !== undefined) as string[]
+  }
+
+  /**
    * Returns the client IP address.
    *
    * @returns {String|undefined}
    */
   getClientIp (): string | undefined {
-    return this.fromHeaders() ??
-     this.fromConnection() ??
-     this.fromSocket() ??
-     this.fromInfo() ??
-     this.fromRaw() ??
-     this.fromRequestContext()
+    return this.getClientIps()[0]
   }
 
   /**
@@ -41,7 +52,7 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  fromHeaders (): string | undefined {
+  fromHeaders (): Array<string|undefined> {
     if (this.hasHeaders()) {
       // nginx (if configured), load balancers (AWS ELB), and other proxies
       if (this.hasIpInForwardedFor()) {
@@ -50,34 +61,36 @@ export class Request extends InteractsWithHeaders {
 
       // Heroku, AWS EC2, nginx (if configured), and others
       if (this.hasIpInHeader('x-client-ip')) {
-        return this.ipInHeader('x-client-ip')
+        return this.ipsInHeader('x-client-ip')
       }
 
       // used by some proxies, like nginx
       if (this.hasIpInHeader('x-real-ip')) {
-        return this.header('x-real-ip')
+        return ([] as Array<string|undefined>).concat(this.header('x-real-ip'))
       }
 
       // Cloudflare
       if (this.hasIpInHeader('cf-connecting-ip')) {
-        return this.header('cf-connecting-ip')
+        return ([] as Array<string|undefined>).concat(this.header('cf-connecting-ip'))
       }
 
       // Fastly and Firebase
       if (this.hasIpInHeader('fastly-client-ip')) {
-        return this.header('fastly-client-ip')
+        return ([] as Array<string|undefined>).concat(this.header('fastly-client-ip'))
       }
 
       // Akamai, Cloudflare
       if (this.hasIpInHeader('true-client-ip')) {
-        return this.header('true-client-ip')
+        return ([] as Array<string|undefined>).concat(this.header('true-client-ip'))
       }
 
       // Rackspace
       if (this.hasIpInHeader('x-cluster-client-ip')) {
-        return this.header('x-cluster-client-ip')
+        return ([] as Array<string|undefined>).concat(this.header('x-cluster-client-ip'))
       }
     }
+
+    return []
   }
 
   /**
@@ -86,9 +99,7 @@ export class Request extends InteractsWithHeaders {
    * @returns {Boolean}
    */
   hasIpInForwardedFor (): boolean {
-    return this.isIp(
-      this.getFromForwardedFor()
-    )
+    return this.getFromForwardedFor().length > 0
   }
 
   /**
@@ -96,22 +107,24 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  getFromForwardedFor (): string | undefined {
+  getFromForwardedFor (): string[] {
     if (this.hasIpInHeader('x-forwarded-for')) {
-      return this.ipInHeader('x-forwarded-for')
+      return this.ipsInHeader('x-forwarded-for')
     }
 
     if (this.hasIpInHeader('x-forwarded')) {
-      return this.ipInHeader('x-forwarded')
+      return this.ipsInHeader('x-forwarded')
     }
 
     if (this.hasIpInHeader('forwarded-for')) {
-      return this.ipInHeader('forwarded-for')
+      return this.ipsInHeader('forwarded-for')
     }
 
     if (this.hasIpInHeader('forwarded')) {
-      return this.ipInHeader('forwarded')
+      return this.ipsInHeader('forwarded')
     }
+
+    return []
   }
 
   /**
@@ -122,7 +135,7 @@ export class Request extends InteractsWithHeaders {
    * @returns {Boolean}
    */
   hasIpInHeader (name: string): boolean {
-    return !!this.ipInHeader(name)
+    return this.ipsInHeader(name).length > 0
   }
 
   /**
@@ -132,9 +145,9 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  ipInHeader (name: string): string | undefined {
-    return this.findIp(
-      this.header(name)?.split(',')
+  ipsInHeader (name: string): string[] {
+    return this.filterIps(
+      this.header(name)?.split(',') ?? []
     )
   }
 
@@ -145,11 +158,11 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  findIp (ips: string[] = []): string | undefined {
-    return ips
+  filterIps (ips: string[]): string[] {
+    return [...ips]
       .map(ip => ip.trim())
       .map(ip => this.removePortFrom(ip))
-      .find(ip => this.isIp(ip))
+      .filter(ip => this.isIp(ip))
   }
 
   /**
@@ -174,22 +187,24 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  fromConnection (): string | undefined {
+  fromConnection (): string[] {
     if (!this.hasConnection()) {
-      return
+      return []
     }
 
     if (this.isIp(this.request.connection.remoteAddress)) {
-      return this.request.connection.remoteAddress
+      return [this.request.connection.remoteAddress]
     }
 
     if (!this.request.connection.socket) {
-      return
+      return []
     }
 
     if (this.isIp(this.request.connection.socket.remoteAddress)) {
-      return this.request.connection.socket.remoteAddress
+      return [this.request.connection.socket.remoteAddress]
     }
+
+    return []
   }
 
   /**
@@ -204,16 +219,18 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the IP address if available in the request socket.
    *
-   * @returns {String|undefined}
+   * @returns {String[]}
    */
-  fromSocket (): string | undefined {
+  fromSocket (): string[] {
     if (!this.hasSocket()) {
-      return
+      return []
     }
 
     if (this.isIp(this.request.socket.remoteAddress)) {
-      return this.request.socket.remoteAddress
+      return [this.request.socket.remoteAddress]
     }
+
+    return []
   }
 
   /**
@@ -230,14 +247,16 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  fromInfo (): string | undefined {
+  fromInfo (): string[] {
     if (!this.hasInfo()) {
-      return
+      return []
     }
 
     if (this.isIp(this.request.info.remoteAddress)) {
-      return this.request.info.remoteAddress
+      return [this.request.info.remoteAddress]
     }
+
+    return []
   }
 
   /**
@@ -256,10 +275,12 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  fromRaw (): string | undefined {
+  fromRaw (): string[] {
     if (this.hasRaw()) {
-      return new Request(this.request.raw).getClientIp()
+      return new Request(this.request.raw).getClientIps()
     }
+
+    return []
   }
 
   /**
@@ -286,19 +307,21 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {String|undefined}
    */
-  fromRequestContext (): string | undefined {
+  fromRequestContext (): string[] {
     // AWS API Gateway/Lambda
     if (!this.hasRequestContext()) {
-      return
+      return []
     }
 
     if (!this.requestContext().identity) {
-      return
+      return []
     }
 
     if (this.isIp(this.requestContext().identity.sourceIp)) {
-      return this.requestContext().identity.sourceIp
+      return [this.requestContext().identity.sourceIp]
     }
+
+    return []
   }
 
   /**

@@ -1,11 +1,15 @@
 'use strict'
 
 const RequestIp = require('../dist')
-const { getClientIp } = RequestIp
+const { getClientIp, getClientIps } = RequestIp
 
 describe('Request IP: ', () => {
   it('exports a function', async () => {
     expect(getClientIp).toBeInstanceOf(Function)
+  })
+
+  it('request headers is undefined', async () => {
+    expect(getClientIps()).toEqual([])
   })
 
   it('request headers is undefined', async () => {
