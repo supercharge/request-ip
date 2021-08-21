@@ -25,7 +25,7 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the client IP address.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
   getClientIp (): string | undefined {
     return this.fromHeaders() ??
@@ -39,9 +39,9 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the IP address if available in the HTTP request headers.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
-  fromHeaders (): undefined | string {
+  fromHeaders (): string | undefined {
     if (this.hasHeaders()) {
       // nginx (if configured), load balancers (AWS ELB), and other proxies
       if (this.hasIpInForwardedFor()) {
@@ -94,7 +94,7 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the IP address if available from the “x-forwarded-for” HTTP header.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
   getFromForwardedFor (): string | undefined {
     if (this.hasIpInHeader('x-forwarded-for')) {
@@ -130,7 +130,7 @@ export class Request extends InteractsWithHeaders {
    *
    * @param {String} name
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
   ipInHeader (name: string): string | undefined {
     return this.findIp(
@@ -143,7 +143,7 @@ export class Request extends InteractsWithHeaders {
    *
    * @param {Array} ips
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
   findIp (ips: string[] = []): string | undefined {
     return ips
@@ -172,9 +172,9 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the IP address if available in the request connection.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
-  fromConnection (): undefined | string {
+  fromConnection (): string | undefined {
     if (!this.hasConnection()) {
       return
     }
@@ -204,9 +204,9 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the IP address if available in the request socket.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
-  fromSocket (): undefined | string {
+  fromSocket (): string | undefined {
     if (!this.hasSocket()) {
       return
     }
@@ -228,9 +228,9 @@ export class Request extends InteractsWithHeaders {
   /**
    * Returns the IP address if available in the request info object.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
-  fromInfo (): undefined | string {
+  fromInfo (): string | undefined {
     if (!this.hasInfo()) {
       return
     }
@@ -254,9 +254,9 @@ export class Request extends InteractsWithHeaders {
    * `raw` request object is typically available in web frameworks like
    * Fastify or hapi providing the original Node.js request instance.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
-  fromRaw (): undefined | string {
+  fromRaw (): string | undefined {
     if (this.hasRaw()) {
       return new Request(this.request.raw).getClientIp()
     }
@@ -284,9 +284,9 @@ export class Request extends InteractsWithHeaders {
    * Returns the IP address if available in the request context. The request
    * context is typically available in serverless functions, like AWS Lambda.
    *
-   * @returns {String | undefined}
+   * @returns {String|undefined}
    */
-  fromRequestContext (): undefined | string {
+  fromRequestContext (): string | undefined {
     // AWS API Gateway/Lambda
     if (!this.hasRequestContext()) {
       return
@@ -327,8 +327,6 @@ export class Request extends InteractsWithHeaders {
    * @returns {Boolean}
    */
   isIp (ip?: string): boolean {
-    ip = ip ?? ''
-
     return this.isIpv4(ip) || this.isIpv6(ip)
   }
 
@@ -339,8 +337,8 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {Boolean}
    */
-  isIpv4 (ip: string): boolean {
-    return Net.isIP(ip) === 4
+  isIpv4 (ip?: string): boolean {
+    return Net.isIP(ip ?? '') === 4
   }
 
   /**
@@ -350,7 +348,7 @@ export class Request extends InteractsWithHeaders {
    *
    * @returns {Boolean}
    */
-  isIpv6 (ip: string): boolean {
-    return Net.isIP(ip) === 6
+  isIpv6 (ip?: string): boolean {
+    return Net.isIP(ip ?? '') === 6
   }
 }
