@@ -29,8 +29,8 @@ export class Request extends InteractsWithHeaders {
    */
   getClientIp (): string | undefined {
     return this.fromHeaders() ??
-     this.fromConnection() ??
      this.fromSocket() ??
+     this.fromConnection() ??
      this.fromInfo() ??
      this.fromRaw() ??
      this.fromRequestContext()
