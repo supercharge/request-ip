@@ -1,7 +1,7 @@
 {
   "name": "@supercharge/request-ip",
   "description": "Retrieve a request’s IP address in Node.js",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "author": "Marcus Pöhls <marcus@superchargejs.com>",
   "bugs": {
     "url": "https://github.com/supercharge/request-ip/issues"
