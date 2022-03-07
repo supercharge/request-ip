@@ -1,9 +1,12 @@
 # Changelog
 
 
-## [1.2.0](https://github.com/supercharge/request-ip/compare/v1.1.2...v1.2.0) - 2020-08-xx
+## [1.2.0](https://github.com/supercharge/request-ip/compare/v1.1.2...v1.2.0) - 2022-03-07
 
 ### Updated
+- bump dependencies
+- prefer the IP address from `request.socket` over `request.connection`
+    - `request.connection` is deprecated since Node.js v13.0.0
 - move tests from @hapi/lab and @hapi/code to jest
 
 
