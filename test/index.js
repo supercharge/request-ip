@@ -150,7 +150,7 @@ describe('Request IP: ', () => {
     expect(
       RequestIp.getClientIp({ connection: { remoteAddress: '8.8.8.8' } })).toEqual('8.8.8.8')
     expect(
-      RequestIp.getClientIp({ connection: { } })
+      RequestIp.getClientIp({ connection: {} })
     ).toBeUndefined()
 
     expect(
@@ -161,7 +161,7 @@ describe('Request IP: ', () => {
     expect(
       RequestIp.getClientIp({ connection: { socket: { remoteAddress: '8.8.8.8' } } })).toEqual('8.8.8.8')
     expect(
-      RequestIp.getClientIp({ connection: { socket: { } } })).toBeUndefined()
+      RequestIp.getClientIp({ connection: { socket: {} } })).toBeUndefined()
     expect(
       RequestIp.getClientIp({ connection: { socket: { remoteAddress: 'invalid-ip' } } })).toBeUndefined()
   })
@@ -174,7 +174,7 @@ describe('Request IP: ', () => {
     ).toBeUndefined()
 
     expect(
-      RequestIp.getClientIp({ socket: { } })
+      RequestIp.getClientIp({ socket: {} })
     ).toBeUndefined()
   })
 
@@ -186,7 +186,7 @@ describe('Request IP: ', () => {
     ).toBeUndefined()
 
     expect(
-      RequestIp.getClientIp({ info: { } })
+      RequestIp.getClientIp({ info: {} })
     ).toBeUndefined()
   })
 
@@ -200,7 +200,7 @@ describe('Request IP: ', () => {
     ).toBeUndefined()
 
     expect(
-      RequestIp.getClientIp({ requestContext: { } })
+      RequestIp.getClientIp({ requestContext: {} })
     ).toBeUndefined()
 
     expect(
@@ -222,7 +222,7 @@ describe('Request IP: ', () => {
     ).toBeUndefined()
 
     expect(
-      RequestIp.getClientIp({ raw: { } })
+      RequestIp.getClientIp({ raw: {} })
     ).toBeUndefined()
   })
 
@@ -244,5 +244,11 @@ describe('Request IP: ', () => {
     expect(
       RequestIp.getClientIp({ connection: { remoteAddress: '2001:db8::2:1' } })
     ).toEqual('2001:db8::2:1')
+  })
+
+  it('cf-connecting-ip and x-forwarded-for', () => {
+    expect(
+      RequestIp.getClientIp({ headers: { 'x-forwarded-for': '8.8.8.8', 'cf-connecting-ip': '4.4.4.4' } })
+    ).toEqual('4.4.4.4')
   })
 })
