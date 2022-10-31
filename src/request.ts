@@ -43,6 +43,11 @@ export class Request extends InteractsWithHeaders {
    */
   fromHeaders (): string | undefined {
     if (this.hasHeaders()) {
+      // Cloudflare
+      if (this.hasIpInHeader('cf-connecting-ip')) {
+        return this.header('cf-connecting-ip')
+      }
+
       // nginx (if configured), load balancers (AWS ELB), and other proxies
       if (this.hasIpInForwardedFor()) {
         return this.getFromForwardedFor()
@@ -56,11 +61,6 @@ export class Request extends InteractsWithHeaders {
       // used by some proxies, like nginx
       if (this.hasIpInHeader('x-real-ip')) {
         return this.header('x-real-ip')
-      }
-
-      // Cloudflare
-      if (this.hasIpInHeader('cf-connecting-ip')) {
-        return this.header('cf-connecting-ip')
       }
 
       // Fastly and Firebase

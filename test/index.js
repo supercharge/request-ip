@@ -245,4 +245,10 @@ describe('Request IP: ', () => {
       RequestIp.getClientIp({ connection: { remoteAddress: '2001:db8::2:1' } })
     ).toEqual('2001:db8::2:1')
   })
+
+  it('cf-connecting-ip and x-forwarded-for', () => {
+    expect(
+      RequestIp.getClientIp({ headers: { 'x-forwarded-for': '8.8.8.8', 'cf-connecting-ip': '4.4.4.4' } })
+    ).toEqual('4.4.4.4')
+  }
 })
